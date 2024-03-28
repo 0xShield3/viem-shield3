@@ -6,13 +6,13 @@ import {
   Shield3PolicyViolationError,
 } from '../../errors/shield3Errors.js'
 
-
 function parsePolicyResults(response: any) {
   const blockedPolicyNames =
     response.data.result.transaction.workflow_results.policyResults
       .filter(
         (policy: any) =>
-          policy.policyDecision.toLowerCase() === 'block' || policy.policyDecision.toLowerCase() === 'mfa',
+          policy.policyDecision.toLowerCase() === 'block' ||
+          policy.policyDecision.toLowerCase() === 'mfa',
       )
       .map((policy: any) => policy.name)
   return JSON.stringify(blockedPolicyNames)
@@ -23,7 +23,7 @@ async function callShield3(
   fromAddress: string,
   chainId: string,
 ) {
-//   const apiKey = 'SsrNa315DU2O37cYzmQK36d7ABpBcFg2aynDlyWh'
+  //   const apiKey = 'SsrNa315DU2O37cYzmQK36d7ABpBcFg2aynDlyWh'
   const apiKey = import.meta.env.VITE_SHIELD3_API_KEY
   const data = JSON.stringify({
     jsonrpc: '2.0',
@@ -61,19 +61,18 @@ async function callShield3(
 }
 
 export async function fortifyTransaction(populated_tx: any) {
-    // This function takes in a preparedTransaction, or an already serialized one as a string.
-    let serializedUnsigned:string
-    if (populated_tx.Type!=="string") {
-        serializedUnsigned = serializeTransaction(populated_tx)
-    }
-    else {
-        serializedUnsigned = populated_tx
-    }
-    return await callShield3(
-        serializedUnsigned,
-        populated_tx.from.toString(),
-        populated_tx.chainId.toString(16),
-    )
+  // This function takes in a preparedTransaction, or an already serialized one as a string.
+  let serializedUnsigned: string
+  if (populated_tx.Type !== 'string') {
+    serializedUnsigned = serializeTransaction(populated_tx)
+  } else {
+    serializedUnsigned = populated_tx
+  }
+  return await callShield3(
+    serializedUnsigned,
+    populated_tx.from.toString(),
+    populated_tx.chainId.toString(16),
+  )
 }
 
 // Example usage:

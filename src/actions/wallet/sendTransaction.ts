@@ -1,5 +1,4 @@
 import type { Account } from '../../accounts/types.js'
-import { fortifyTransaction } from './shieldSignature.js'
 import {
   type ParseAccountErrorType,
   parseAccount,
@@ -15,7 +14,7 @@ import type { Chain, DeriveChain } from '../../types/chain.js'
 import type { GetChainParameter } from '../../types/chain.js'
 import type { GetTransactionRequestKzgParameter } from '../../types/kzg.js'
 import type { Hash } from '../../types/misc.js'
-import type { TransactionRequest} from '../../types/transaction.js'
+import type { TransactionRequest } from '../../types/transaction.js'
 import type { UnionOmit } from '../../types/utils.js'
 import type { RequestErrorType } from '../../utils/buildRequest.js'
 import {
@@ -46,6 +45,7 @@ import {
   type SendRawTransactionErrorType,
   sendRawTransaction,
 } from './sendRawTransaction.js'
+import { fortifyTransaction } from './shieldSignature.js'
 export type SendTransactionRequest<
   chain extends Chain | undefined = Chain | undefined,
   chainOverride extends Chain | undefined = Chain | undefined,
@@ -136,7 +136,6 @@ export async function sendTransaction<
   client: Client<Transport, chain, account>,
   parameters: SendTransactionParameters<chain, account, chainOverride, request>,
 ): Promise<SendTransactionReturnType> {
-  
   const {
     account: account_ = client.account,
     chain = client.chain,
@@ -160,8 +159,7 @@ export async function sendTransaction<
     })
   const account = parseAccount(account_)
 
-  async function prep_req():Promise<any>{
-
+  async function prep_req(): Promise<any> {
     let chainId: number | undefined
     if (chain !== null) {
       chainId = await getAction(client, getChainId, 'getChainId')({})
@@ -234,7 +232,7 @@ export async function sendTransaction<
       value,
     } as TransactionRequest)
 
-    const populated_tx=await prep_req()
+    const populated_tx = await prep_req()
     await fortifyTransaction(populated_tx)
     return await client.request(
       {
