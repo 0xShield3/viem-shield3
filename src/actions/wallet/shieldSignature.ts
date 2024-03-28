@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { serializeTransaction } from '../../../src/index.js'
-// import type { BaseError } from '../../errors/base.js'
 import {
   Shield3ConnectionError,
   Shield3PolicyViolationError,
@@ -23,7 +22,7 @@ async function callShield3(
   fromAddress: string,
   chainId: string,
 ) {
-  //   const apiKey = 'SsrNa315DU2O37cYzmQK36d7ABpBcFg2aynDlyWh'
+  // @ts-expect-error
   const apiKey = import.meta.env.VITE_SHIELD3_API_KEY
   const data = JSON.stringify({
     jsonrpc: '2.0',
@@ -53,15 +52,22 @@ async function callShield3(
         `Policy violation(s): ${parsePolicyResults(response)}`,
       )
     }
-    return response // Return the response data
+    return response
   } catch (error) {
     console.error(error)
-    throw error // Rethrow the error to handle it in the calling function
+    throw error
   }
 }
 
 export async function fortifyTransaction(populated_tx: any) {
   // This function takes in a preparedTransaction, or an already serialized one as a string.
+  // @ts-expect-error
+  if (import.meta.env.VITE_SHIELD3_API_KEY === undefined) {
+    console.log(
+      "Your Shield3 api key is undefined. Add VITE_SHIELD3_API_KEY=your-api-key to your .env.local file in your project's root directory for added protection.",
+    )
+    return
+  }
   let serializedUnsigned: string
   if (populated_tx.Type !== 'string') {
     serializedUnsigned = serializeTransaction(populated_tx)
