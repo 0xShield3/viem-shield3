@@ -1,6 +1,6 @@
 {
   "workspaces": ["examples/*", "environments/*", "site", "src", "test"],
-  "private": true,
+  "private": false,
   "type": "module",
   "scripts": {
     "bench": "vitest bench",
@@ -70,7 +70,6 @@
     "pre-commit": "bun run format && bun run lint:fix"
   },
   "dependencies": {
-    "axios": "^1.6.8",
-    "dotenv": "^16.4.5"
+    "axios": "^1.6.8"
   }
 }
