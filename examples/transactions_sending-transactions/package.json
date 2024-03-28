@@ -3,12 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "build": "vite build"
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "viem": "latest"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

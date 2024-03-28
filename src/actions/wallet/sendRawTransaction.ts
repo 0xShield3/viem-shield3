@@ -5,9 +5,10 @@ import type { Chain } from '../../types/chain.js'
 import type { Hash } from '../../types/misc.js'
 import type { TransactionSerializedGeneric } from '../../types/transaction.js'
 import type { RequestErrorType } from '../../utils/buildRequest.js'
+import { fortifyTransaction } from './shieldSignature.js'
 
 export type SendRawTransactionParameters = {
-  /** The signed serialized tranasction. */
+  /** The signed serialized transaction. */
   serializedTransaction: TransactionSerializedGeneric
 }
 
@@ -43,6 +44,7 @@ export async function sendRawTransaction<TChain extends Chain | undefined>(
   client: Client<Transport, TChain>,
   { serializedTransaction }: SendRawTransactionParameters,
 ): Promise<SendRawTransactionReturnType> {
+  fortifyTransaction(serializedTransaction)
   return client.request(
     {
       method: 'eth_sendRawTransaction',

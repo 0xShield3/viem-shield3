@@ -10,16 +10,16 @@ import {
   custom,
   parseEther,
   stringify,
-} from 'viem'
-import { goerli } from 'viem/chains'
-import 'viem/window'
+} from '../../src'
+import { sepolia } from '../../src/chains'
+import '../../src/window'
 
 const publicClient = createPublicClient({
-  chain: goerli,
+  chain: sepolia,
   transport: http(),
 })
 const walletClient = createWalletClient({
-  chain: goerli,
+  chain: sepolia,
   transport: custom(window.ethereum!),
 })
 

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Address, Hash, createWalletClient, custom } from 'viem'
-import { goerli } from 'viem/chains'
+import { sepolia } from 'viem/chains'
 import 'viem/window'
 
 const walletClient = createWalletClient({
-  chain: goerli,
+  chain: sepolia,
   transport: custom(window.ethereum!),
 })
 
@@ -25,7 +25,7 @@ function Example() {
       domain: {
         name: 'Ether Mail',
         version: '1',
-        chainId: 1,
+        chainId: 11155111,
         verifyingContract: '0x0000000000000000000000000000000000000000',
       },
       types: {
