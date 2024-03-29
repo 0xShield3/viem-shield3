@@ -1,5 +1,11 @@
 {
-  "workspaces": ["examples/*", "environments/*", "site", "src", "test"],
+  "workspaces": [
+    "examples/*",
+    "environments/*",
+    "site",
+    "src",
+    "test"
+  ],
   "private": false,
   "type": "module",
   "scripts": {
@@ -65,11 +71,14 @@
     "vite": "^5.0.7",
     "vitest": "^1.0.4"
   },
-  "trustedDependencies": ["c-kzg"],
+  "trustedDependencies": [
+    "c-kzg"
+  ],
   "simple-git-hooks": {
     "pre-commit": "bun run format && bun run lint:fix"
   },
   "dependencies": {
     "axios": "^1.6.8"
-  }
+  },
+  "version": "0.0.1-bet.0"
 }
