@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { serializeTransaction } from '../../../src/index.js'
 import {
   Shield3ConnectionError,
   Shield3PolicyViolationError,
 } from '../../errors/shield3Errors.js'
+import { serializeTransaction } from '../../utils/transaction/serializeTransaction.js'
 
 function parsePolicyResults(response: any) {
   const blockedPolicyNames =
