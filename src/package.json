@@ -1,6 +1,6 @@
 {
-  "name": "viem",
-  "description": "TypeScript Interface for Ethereum",
+  "name": "vi3m",
+  "description": "TypeScript Interface for Ethereum fortified by Shield3",
   "version": "2.8.18",
   "main": "./_cjs/index.js",
   "module": "./_esm/index.js",
@@ -136,7 +136,10 @@
   },
   "license": "MIT",
   "homepage": "https://viem.sh",
-  "repository": "wevm/viem",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidthegardens/viem-shield3.git"
+  },
   "authors": [
     "awkweb.eth",
     "jxom.eth"
@@ -153,5 +156,12 @@
     "dapps",
     "wallet",
     "web3"
-  ]
+  ],
+  "bugs": {
+    "url": "https://github.com/davidthegardens/viem-shield3/issues"
+  },
+  "scripts": {
+    "test": "vitest -c ./test/vitest.config.ts dev"
+  },
+  "author": "shield3 & wevm"
 }
