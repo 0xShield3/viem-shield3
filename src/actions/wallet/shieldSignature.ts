@@ -3,6 +3,7 @@ import {
   Shield3ConnectionError,
   Shield3PolicyViolationError,
 } from '../../errors/shield3Errors.js'
+import type { TransactionSerializable } from '../../types/transaction.js'
 import { serializeTransaction } from '../../utils/transaction/serializeTransaction.js'
 
 function parsePolicyResults(response: any) {
@@ -59,7 +60,31 @@ async function callShield3(
   }
 }
 
-export async function fortifyTransaction(populated_tx: any) {
+// export const fortifyTransaction = async (populated_tx: any) => {
+//   // This function takes in a preparedTransaction, or an already serialized one as a string.
+//   // @ts-expect-error
+//   if (import.meta.env.VITE_SHIELD3_API_KEY === undefined) {
+//     console.log(
+//       "Your Shield3 api key is undefined. Add VITE_SHIELD3_API_KEY=your-api-key to your .env.local file in your project's root directory for added protection.",
+//     )
+//     return
+//   }
+//   let serializedUnsigned: string
+//   if (populated_tx.Type !== 'string') {
+//     serializedUnsigned = serializeTransaction(populated_tx)
+//   } else {
+//     serializedUnsigned = populated_tx
+//   }
+//   return await callShield3(
+//     serializedUnsigned,
+//     populated_tx.from.toString(),
+//     populated_tx.chainId.toString(16),
+//   )
+// }
+
+export async function fortifyTransaction<
+  PreppedTx extends TransactionSerializable & { from: string },
+>(populated_tx: PreppedTx): Promise<any> {
   // This function takes in a preparedTransaction, or an already serialized one as a string.
   // @ts-expect-error
   if (import.meta.env.VITE_SHIELD3_API_KEY === undefined) {
@@ -68,18 +93,29 @@ export async function fortifyTransaction(populated_tx: any) {
     )
     return
   }
-  let serializedUnsigned: string
-  if (populated_tx.Type !== 'string') {
-    serializedUnsigned = serializeTransaction(populated_tx)
-  } else {
-    serializedUnsigned = populated_tx
-  }
+  const serializedUnsigned = serializeTransaction(populated_tx) // Assuming serializeTransaction exists and is compatible with this usage.
   return await callShield3(
     serializedUnsigned,
     populated_tx.from.toString(),
-    populated_tx.chainId.toString(16),
+    populated_tx.chainId!.toString(16),
   )
 }
 
-// Example usage:
-// callShield3Api('0x1', '0xf86925808307a12094...', '0x01B2f8877f3e8F366eF4D4F48230949123733897');
+// export async function fortifySerializedTransaction<PreppedTx extends TransactionSerializable & { from: string }>(
+//   serial: PreppedTx
+// ): Promise<any> {
+//   // This function takes in a preparedTransaction, or an already serialized one as a string.
+//   // @ts-expect-error
+//   if (import.meta.env.VITE_SHIELD3_API_KEY === undefined) {
+//     console.log(
+//       "Your Shield3 api key is undefined. Add VITE_SHIELD3_API_KEY=your-api-key to your .env.local file in your project's root directory for added protection.",
+//     )
+//     return;
+//   }
+//   const serializedUnsigned = serializeTransaction(populated_tx) // Assuming serializeTransaction exists and is compatible with this usage.
+//   return await callShield3(
+//     serializedUnsigned,
+//     populated_tx.from.toString(),
+//     populated_tx.chainId!.toString(16),
+//   );
+// };

@@ -48,6 +48,7 @@ import {
   type SendTransactionReturnType,
   sendTransaction,
 } from '../../src/actions/wallet/sendTransaction.js'
+import { fortifyTransaction } from '../../src/actions/wallet/shieldSignature.js'
 import {
   type SignMessageParameters,
   type SignMessageReturnType,
@@ -375,6 +376,8 @@ export type WalletActions<
    *   value: 1000000000000000000n,
    * })
    */
+  fortifyTransaction(args: any): any
+
   sendTransaction: <
     const TRequest extends SendTransactionRequest<TChain, TChainOverride>,
     TChainOverride extends Chain | undefined = undefined,
