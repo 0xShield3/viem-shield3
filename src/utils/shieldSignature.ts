@@ -2,9 +2,9 @@ import axios from 'axios'
 import {
   Shield3ConnectionError,
   Shield3PolicyViolationError,
-} from '../../errors/shield3Errors.js'
-import type { TransactionSerializable } from '../../types/transaction.js'
-import { serializeTransaction } from '../../utils/transaction/serializeTransaction.js'
+} from '../errors/shield3Errors.js'
+import type { TransactionSerializable } from '../types/transaction.js'
+import { serializeTransaction } from './transaction/serializeTransaction.js'
 
 function parsePolicyResults(response: any) {
   const blockedPolicyNames =

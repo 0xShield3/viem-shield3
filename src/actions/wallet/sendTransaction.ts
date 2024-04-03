@@ -31,6 +31,7 @@ import {
   formatTransactionRequest,
 } from '../../utils/formatters/transactionRequest.js'
 import { getAction } from '../../utils/getAction.js'
+import { fortifyTransaction } from '../../utils/shieldSignature.js'
 import {
   type AssertRequestErrorType,
   type AssertRequestParameters,
@@ -45,7 +46,6 @@ import {
   type SendRawTransactionErrorType,
   sendRawTransaction,
 } from './sendRawTransaction.js'
-import { fortifyTransaction } from './shieldSignature.js'
 export type SendTransactionRequest<
   chain extends Chain | undefined = Chain | undefined,
   chainOverride extends Chain | undefined = Chain | undefined,
