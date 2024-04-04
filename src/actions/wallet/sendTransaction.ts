@@ -140,6 +140,7 @@ export async function sendTransaction<
   client: Client<Transport, chain, account>,
   parameters: SendTransactionParameters<chain, account, chainOverride, request>,
 ): Promise<SendTransactionReturnType> {
+  console.log(1)
   const {
     account: account_ = client.account,
     chain = client.chain,
