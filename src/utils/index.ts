@@ -149,7 +149,6 @@ export {
   type FormatAbiItemWithArgsErrorType,
   formatAbiItemWithArgs,
 } from './abi/formatAbiItemWithArgs.js'
-export { fortifyTransaction } from './shieldSignature.js'
 export {
   type FormatAbiItemErrorType,
   type FormatAbiParamErrorType,

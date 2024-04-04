@@ -1593,4 +1593,3 @@ export {
   domainSeparator,
   getTypesForEIP712Domain,
 } from './utils/typedData.js'
-export { fortifyTransaction } from './utils/shieldSignature.js'
