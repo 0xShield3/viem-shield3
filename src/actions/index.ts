@@ -356,7 +356,6 @@ export {
   type SignTransactionReturnType,
   signTransaction,
 } from './wallet/signTransaction.js'
-export { fortifyTransaction } from '../utils/shieldSignature.js'
 export {
   type SendRawTransactionErrorType,
   type SendRawTransactionParameters,

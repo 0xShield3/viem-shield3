@@ -5,6 +5,7 @@ import * as utils from './index.js'
 test('exports utils', () => {
   expect(utils).toMatchInlineSnapshot(`
     {
+      "fortifyTransaction":[Function]
       "arrayRegex": /\\^\\(\\.\\*\\)\\\\\\[\\(\\[0-9\\]\\*\\)\\\\\\]\\$/,
       "assertCurrentChain": [Function],
       "assertRequest": [Function],

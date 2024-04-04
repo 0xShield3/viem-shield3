@@ -5,6 +5,7 @@ import * as exports from './index.js'
 test('exports', () => {
   expect(Object.keys(exports)).toMatchInlineSnapshot(`
     [
+      "fortifyTransaction",
       "CircularReferenceError",
       "InvalidAbiParameterError",
       "InvalidAbiParametersError",

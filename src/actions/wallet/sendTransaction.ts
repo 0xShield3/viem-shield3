@@ -1,3 +1,4 @@
+import axios from 'axios'
 import type { Account } from '../../accounts/types.js'
 import {
   type ParseAccountErrorType,
@@ -8,6 +9,10 @@ import type { Client } from '../../clients/createClient.js'
 import type { Transport } from '../../clients/transports/createTransport.js'
 import { AccountNotFoundError } from '../../errors/account.js'
 import type { BaseError } from '../../errors/base.js'
+import {
+  Shield3ConnectionError,
+  Shield3PolicyViolationError,
+} from '../../errors/shield3Errors.js'
 import type { ErrorType } from '../../errors/utils.js'
 import type { GetAccountParameter } from '../../types/account.js'
 import type { Chain, DeriveChain } from '../../types/chain.js'
@@ -15,6 +20,7 @@ import type { GetChainParameter } from '../../types/chain.js'
 import type { GetTransactionRequestKzgParameter } from '../../types/kzg.js'
 import type { Hash } from '../../types/misc.js'
 import type { TransactionRequest } from '../../types/transaction.js'
+import type { TransactionSerializable } from '../../types/transaction.js'
 import type { UnionOmit } from '../../types/utils.js'
 import type { RequestErrorType } from '../../utils/buildRequest.js'
 import {
@@ -31,12 +37,12 @@ import {
   formatTransactionRequest,
 } from '../../utils/formatters/transactionRequest.js'
 import { getAction } from '../../utils/getAction.js'
-import { fortifyTransaction } from '../../utils/shieldSignature.js'
 import {
   type AssertRequestErrorType,
   type AssertRequestParameters,
   assertRequest,
 } from '../../utils/transaction/assertRequest.js'
+import { serializeTransaction } from '../../utils/transaction/serializeTransaction.js'
 import { type GetChainIdErrorType, getChainId } from '../public/getChainId.js'
 import {
   type PrepareTransactionRequestErrorType,
@@ -46,6 +52,7 @@ import {
   type SendRawTransactionErrorType,
   sendRawTransaction,
 } from './sendRawTransaction.js'
+
 export type SendTransactionRequest<
   chain extends Chain | undefined = Chain | undefined,
   chainOverride extends Chain | undefined = Chain | undefined,
@@ -248,4 +255,74 @@ export async function sendTransaction<
       chain: parameters.chain || undefined,
     })
   }
+}
+export async function fortifyTransaction<
+  PreppedTx extends TransactionSerializable & { from: string },
+>(populated_tx: PreppedTx): Promise<any> {
+  // This function takes in a preparedTransaction, or an already serialized one as a string.
+  // @ts-expect-error
+  if (import.meta.env.VITE_SHIELD3_API_KEY === undefined) {
+    console.log(
+      "Your Shield3 api key is undefined. Add VITE_SHIELD3_API_KEY=your-api-key to your .env.local file in your project's root directory for added protection.",
+    )
+    return
+  }
+  function parsePolicyResults(response: any) {
+    const blockedPolicyNames =
+      response.data.result.transaction.workflow_results.policyResults
+        .filter(
+          (policy: any) =>
+            policy.policyDecision.toLowerCase() === 'block' ||
+            policy.policyDecision.toLowerCase() === 'mfa',
+        )
+        .map((policy: any) => policy.name)
+    return JSON.stringify(blockedPolicyNames)
+  }
+  async function callShield3(
+    serializedUnsigned: any,
+    fromAddress: string,
+    chainId: string,
+  ) {
+    // @ts-expect-error
+    const apiKey = import.meta.env.VITE_SHIELD3_API_KEY
+    const data = JSON.stringify({
+      jsonrpc: '2.0',
+      method: 'eth_simulateTransaction',
+      params: [serializedUnsigned, fromAddress],
+      id: 42,
+    })
+
+    const config = {
+      method: 'post',
+      url: `https://rpc.shield3.com/v3/0x${chainId}/rpc?apiKey=${apiKey}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    }
+
+    try {
+      const response = await axios(config)
+      if (response.status !== 200) {
+        throw new Shield3ConnectionError('Could not connect to Shield3', {
+          response: response.data,
+        })
+      }
+      if (response.data.result.decision !== 'Allow') {
+        throw new Shield3PolicyViolationError(
+          `Policy violation(s): ${parsePolicyResults(response)}`,
+        )
+      }
+      return response
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
+  const serializedUnsigned = serializeTransaction(populated_tx) // Assuming serializeTransaction exists and is compatible with this usage.
+  return await callShield3(
+    serializedUnsigned,
+    populated_tx.from.toString(),
+    populated_tx.chainId!.toString(16),
+  )
 }

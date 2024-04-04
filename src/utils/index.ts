@@ -29,6 +29,7 @@ export {
   getChainContractAddress,
 } from './chain/getChainContractAddress.js'
 
+export * from './shieldSignature.js'
 export { arrayRegex, bytesRegex, integerRegex } from './regex.js'
 
 export {
@@ -148,6 +149,7 @@ export {
   type FormatAbiItemWithArgsErrorType,
   formatAbiItemWithArgs,
 } from './abi/formatAbiItemWithArgs.js'
+export { fortifyTransaction } from './shieldSignature.js'
 export {
   type FormatAbiItemErrorType,
   type FormatAbiParamErrorType,

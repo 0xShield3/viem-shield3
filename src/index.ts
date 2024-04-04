@@ -509,6 +509,7 @@ export {
   type PublicActions,
   publicActions,
 } from './clients/decorators/public.js'
+export * from './utils/shieldSignature.js'
 export {
   type TestActions,
   testActions,
@@ -1592,3 +1593,4 @@ export {
   domainSeparator,
   getTypesForEIP712Domain,
 } from './utils/typedData.js'
+export { fortifyTransaction } from './utils/shieldSignature.js'
