@@ -164,7 +164,8 @@ export async function signTransaction<
       { serializer: client.chain?.serializers?.transaction },
     ) as Promise<SignTransactionReturnType>
   }
-
+  const xyz = { ...format(transaction as unknown as TransactionRequest) }
+  console.log(xyz)
   return await client.request(
     {
       method: 'eth_signTransaction',

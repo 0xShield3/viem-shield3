@@ -1,5 +1,4 @@
 import type { Account } from '../../accounts/types.js'
-import { fortifyTransaction } from './fortifyTransaction.js'
 import {
   type ParseAccountErrorType,
   parseAccount,
@@ -9,6 +8,7 @@ import type { Client } from '../../clients/createClient.js'
 import type { Transport } from '../../clients/transports/createTransport.js'
 import { AccountNotFoundError } from '../../errors/account.js'
 import type { BaseError } from '../../errors/base.js'
+import { fortifySendTransaction } from './fortifyTransactions.js'
 
 import type { ErrorType } from '../../errors/utils.js'
 import type { GetAccountParameter } from '../../types/account.js'
@@ -202,7 +202,8 @@ export async function sendTransaction<
     if (account.type === 'local') {
       // Prepare the request for signing (assign appropriate fees, etc.)
       const request = await prep_req()
-      // await fortifyTransaction(prep_req)
+      // Removed this fortification as sendrawtransaction is also fortified now.
+      // await fortifySendTransaction(request)
       const serializer = chain?.serializers?.transaction
       const serializedTransaction = (await account.signTransaction(request, {
         serializer,
@@ -237,7 +238,7 @@ export async function sendTransaction<
     } as TransactionRequest)
 
     const populated_tx = await prep_req()
-    await fortifyTransaction(populated_tx)
+    await fortifySendTransaction(populated_tx)
     return await client.request(
       {
         method: 'eth_sendTransaction',
