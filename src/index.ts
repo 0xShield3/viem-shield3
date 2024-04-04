@@ -509,7 +509,6 @@ export {
   type PublicActions,
   publicActions,
 } from './clients/decorators/public.js'
-export * from './utils/shieldSignature.js'
 export {
   type TestActions,
   testActions,

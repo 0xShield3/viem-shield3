@@ -1,7 +1,7 @@
 {
   "name": "@davidthegardens/vi3m",
   "description": "TypeScript Interface for Ethereum fortified by Shield3",
-  "version": "2.8.29",
+  "version": "2.8.32",
   "main": "./_cjs/index.js",
   "module": "./_esm/index.js",
   "types": "./_types/index.d.ts",
@@ -132,8 +132,7 @@
     "@scure/bip39": "1.2.1",
     "abitype": "1.0.0",
     "isows": "1.0.3",
-    "ws": "8.13.0",
-    "axios": "1.6.8"
+    "ws": "8.13.0"
   },
   "license": "MIT",
   "homepage": "https://viem.sh",

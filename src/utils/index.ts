@@ -29,7 +29,6 @@ export {
   getChainContractAddress,
 } from './chain/getChainContractAddress.js'
 
-export * from './shieldSignature.js'
 export { arrayRegex, bytesRegex, integerRegex } from './regex.js'
 
 export {
