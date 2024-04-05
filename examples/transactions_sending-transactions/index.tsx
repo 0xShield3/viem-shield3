@@ -37,7 +37,6 @@ function Example() {
   }
 
   const sendTransaction = async () => {
-    
     if (!account) return
     const hash = await walletClient.sendTransaction({
       account,

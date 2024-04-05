@@ -48,7 +48,6 @@ import {
   type SendTransactionReturnType,
   sendTransaction,
 } from '../../src/actions/wallet/sendTransaction.js'
-import { fortifyTransaction } from '../../src/actions/wallet/shieldSignature.js'
 import {
   type SignMessageParameters,
   type SignMessageReturnType,
