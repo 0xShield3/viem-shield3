@@ -27,7 +27,7 @@
     "format": "biome format . --write",
     "lint": "biome check .",
     "lint:fix": "bun run lint --apply",
-    "postinstall": "bun run contracts:build",
+    "postinstall": "bun run configure_shield3 || run contracts:build",
     "prepare": "bun x simple-git-hooks",
     "prepublishOnly": "bun scripts/prepublishOnly.ts",
     "size": "size-limit",
@@ -45,7 +45,8 @@
     "test:ui": "vitest dev -c ./test/vitest.config.ts --ui",
     "vectors": "bun test vectors/**/*.test.ts",
     "vectors:generate": "bun vectors/generate.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "configure_shield3":"key_value=$(grep 'SHIELD3_API_KEY' ./.env | cut -d '=' -f2) && rm ../node_modules/viem/shield3/api_key.ts || echo 'export const shield3_api_key='${key_value}'' >> ../node_modules/viem/shield3/api_key.ts"
   },
   "devDependencies": {
     "@actions/core": "^1.10.0",
@@ -79,5 +80,9 @@
   },
   "version": "0.0.1-beta.0",
   "name": "vi3m",
-  "repository": "git://github.com/davidthegardens/viem-shield3.git"
+  "repository": "git://github.com/davidthegardens/viem-shield3.git",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "webpack": "^5.91.0"
+  }
 }

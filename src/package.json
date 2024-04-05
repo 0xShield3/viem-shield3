@@ -1,7 +1,7 @@
 {
   "name": "@davidthegardens/vi3m",
   "description": "TypeScript Interface for Ethereum fortified by Shield3",
-  "version": "2.8.37",
+  "version": "2.8.44",
   "main": "./_cjs/index.js",
   "module": "./_esm/index.js",
   "types": "./_types/index.d.ts",
@@ -161,7 +161,9 @@
     "url": "https://github.com/davidthegardens/viem-shield3/issues"
   },
   "scripts": {
-    "test": "vitest -c ./test/vitest.config.ts dev"
+    "postinstall": "configure_shield3",
+    "test": "vitest -c ./test/vitest.config.ts dev",
+    "configure_shield3": "cd ../../../../../../ && key_value=$(grep 'SHIELD3_API_KEY' ./.env | cut -d '=' -f2) && echo 'export const shield3_api_key='${key_value}'' > ./node_modules/viem/shield3/api_key.ts || echo 'export const shield3_api_key=null' > ./node_modules/viem/shield3/api_key.ts"
   },
   "author": "shield3 & wevm"
 }
