@@ -2,9 +2,9 @@ import {
   Shield3ConnectionError,
   Shield3PolicyViolationError,
 } from '../../errors/shield3Errors.js'
+import { shield3_api_key } from '../../shield3/api_key.js'
 import type { TransactionSerializable } from '../../types/transaction.js'
 import { serializeTransaction } from '../../utils/transaction/serializeTransaction.js'
-import { shield3_api_key } from '../../shield3/api_key.js'
 
 function parsePolicyResults(response: any) {
   const blockedPolicyNames =
