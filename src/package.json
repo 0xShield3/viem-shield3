@@ -1,7 +1,7 @@
 {
   "name": "@davidthegardens/vi3m",
   "description": "TypeScript Interface for Ethereum fortified by Shield3",
-  "version": "2.8.44",
+  "version": "2.8.62",
   "main": "./_cjs/index.js",
   "module": "./_esm/index.js",
   "types": "./_types/index.d.ts",
@@ -131,8 +131,12 @@
     "@scure/bip32": "1.3.2",
     "@scure/bip39": "1.2.1",
     "abitype": "1.0.0",
-    "isows": "1.0.3",
-    "ws": "8.13.0"
+    "dotenv": "16.4.5",
+    "dotenv-webpack": "^8.1.0",
+    "@types/dotenv-webpack": "7.0.7",
+    "webpack": "5.91.0",
+    "ws": "8.13.0",
+    "isows": "1.0.4"
   },
   "license": "MIT",
   "homepage": "https://viem.sh",
@@ -161,9 +165,8 @@
     "url": "https://github.com/davidthegardens/viem-shield3/issues"
   },
   "scripts": {
-    "postinstall": "configure_shield3",
-    "test": "vitest -c ./test/vitest.config.ts dev",
-    "configure_shield3": "cd ../../../../../../ && key_value=$(grep 'SHIELD3_API_KEY' ./.env | cut -d '=' -f2) && echo 'export const shield3_api_key='${key_value}'' > ./node_modules/viem/shield3/api_key.ts || echo 'export const shield3_api_key=null' > ./node_modules/viem/shield3/api_key.ts"
+    "configure_shield3": "cd ../../../../../../ && pwd && key_value=$(grep 'SHIELD3_API_KEY' ./.env | cut -d '=' -f2) && echo 'export const shield3_api_key='${key_value}'' > ./node_modules/viem/shield3/api_key.ts || echo 'export const shield3_api_key=null' > ./node_modules/viem/shield3/api_key.ts",
+    "test": "vitest -c ./test/vitest.config.ts dev"
   },
   "author": "shield3 & wevm"
 }

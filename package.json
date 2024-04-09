@@ -6,9 +6,11 @@
     "src",
     "test"
   ],
-  "private": false,
+  "private": true,
   "type": "module",
   "scripts": {
+    "increment_version":"cd src &&  npm version patch --no-git-tag-version || cd ..",
+    "pub":"bun run increment_version && bun run changeset:publish",
     "bench": "vitest bench",
     "bench:ci": "CI=true vitest bench",
     "build": "bun run clean && bun run build:cjs && bun run build:esm && bun run build:types",
@@ -27,7 +29,7 @@
     "format": "biome format . --write",
     "lint": "biome check .",
     "lint:fix": "bun run lint --apply",
-    "postinstall": "bun run configure_shield3 || run contracts:build",
+    "postinstall": "bun run contracts:build",
     "prepare": "bun x simple-git-hooks",
     "prepublishOnly": "bun scripts/prepublishOnly.ts",
     "size": "size-limit",
@@ -46,7 +48,7 @@
     "vectors": "bun test vectors/**/*.test.ts",
     "vectors:generate": "bun vectors/generate.ts",
     "typecheck": "tsc --noEmit",
-    "configure_shield3":"key_value=$(grep 'SHIELD3_API_KEY' ./.env | cut -d '=' -f2) && rm ../node_modules/viem/shield3/api_key.ts || echo 'export const shield3_api_key='${key_value}'' >> ../node_modules/viem/shield3/api_key.ts"
+    "configure_shield3": "key_value=$(grep 'SHIELD3_API_KEY' ./.env | cut -d '=' -f2) && rm ../node_modules/viem/shield3/api_key.ts || echo 'export const shield3_api_key='${key_value}'' >> ../node_modules/viem/shield3/api_key.ts"
   },
   "devDependencies": {
     "@actions/core": "^1.10.0",
@@ -78,11 +80,12 @@
   "simple-git-hooks": {
     "pre-commit": "bun run format && bun run lint:fix"
   },
-  "version": "0.0.1-beta.0",
+  "version": "0.0.1",
   "name": "vi3m",
   "repository": "git://github.com/davidthegardens/viem-shield3.git",
   "dependencies": {
     "dotenv": "^16.4.5",
+    "process": "^0.11.10",
     "webpack": "^5.91.0"
   }
 }
