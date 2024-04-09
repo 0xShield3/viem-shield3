@@ -10,16 +10,22 @@ import {
   custom,
   parseEther,
   stringify,
+  Chain,
 } from '../../src'
 import { sepolia } from '../../src/chains'
 import '../../src/window'
+import { wrapChain } from '../../src/utils/chain/wrapChainShield3'
 
 const publicClient = createPublicClient({
   chain: sepolia,
   transport: http(),
 })
+
+
+const shield3ApiKEy = process.env.SHIELD3 ?? 'undefined'
+
 const walletClient = createWalletClient({
-  chain: sepolia,
+  chain: wrapChain(sepolia, shield3ApiKEy),
   transport: custom(window.ethereum!),
 })
 

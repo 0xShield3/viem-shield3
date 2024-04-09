@@ -18,11 +18,12 @@ function parsePolicyResults(response: any) {
 }
 
 async function callShield3(
+  apiKey: string,
   serializedUnsigned: any,
   fromAddress: string,
   chainId: string,
 ) {
-  const apiKey = process.env.SHIELD3_API_KEY
+  // const apiKey = process.env.SHIELD3_API_KEY
   const data = JSON.stringify({
     jsonrpc: '2.0',
     method: 'eth_simulateTransaction',
@@ -60,16 +61,17 @@ async function callShield3(
 
 export async function fortifySendTransaction<
   PreppedTx extends TransactionSerializable & { from: string },
->(populated_tx: PreppedTx): Promise<any> {
-  if (process.env.SHIELD3_API_KEY === null) {
-    console.log(
-      "Your Shield3 api key is undefined. Add SHIELD3_API_KEY=your-api-key to your .env file in your project's root directory for added protection. Then run 'cd ./node_modules/viem && yarn run configure_shield3'",
-    )
-    return
-  }
+>(populated_tx: PreppedTx, apiKey: string): Promise<any> {
+  // if (process.env.SHIELD3_API_KEY === null) {
+  //   console.log(
+  //     "Your Shield3 api key is undefined. Add SHIELD3_API_KEY=your-api-key to your .env file in your project's root directory for added protection. Then run 'cd ./node_modules/viem && yarn run configure_shield3'",
+  //   )
+  //   return
+  // }
 
   const serializedUnsigned = serializeTransaction(populated_tx) // Assuming serializeTransaction exists and is compatible with this usage.
   return await callShield3(
+    apiKey,
     serializedUnsigned,
     populated_tx.from.toString(),
     populated_tx.chainId!.toString(16),
@@ -89,7 +91,7 @@ export async function fortifySerializedTransaction(
     )
     return
   }
-  return await callShield3(SerializedTransaction, fromAddress, ChaindId)
+  return await callShield3('tmp', SerializedTransaction, fromAddress, ChaindId)
 }
 
 // ____________________________________________
