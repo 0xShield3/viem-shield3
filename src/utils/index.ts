@@ -24,6 +24,7 @@ export {
   type ExtractChainReturnType,
   extractChain,
 } from './chain/extractChain.js'
+export {wrapChain} from './chain/wrapChainShield3.js'
 export {
   type GetChainContractAddressErrorType,
   getChainContractAddress,
