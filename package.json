@@ -1,16 +1,10 @@
 {
-  "workspaces": [
-    "examples/*",
-    "environments/*",
-    "site",
-    "src",
-    "test"
-  ],
+  "workspaces": ["examples/*", "environments/*", "site", "src", "test"],
   "private": true,
   "type": "module",
   "scripts": {
-    "increment_version":"cd src &&  npm version patch --no-git-tag-version || cd ..",
-    "pub":"bun run increment_version && bun run changeset:publish",
+    "increment_version": "cd src &&  npm version patch --no-git-tag-version || cd ..",
+    "pub": "bun run increment_version && bun run changeset:publish",
     "bench": "vitest bench",
     "bench:ci": "CI=true vitest bench",
     "build": "bun run clean && bun run build:cjs && bun run build:esm && bun run build:types",
@@ -74,9 +68,7 @@
     "vite": "^5.0.7",
     "vitest": "^1.0.4"
   },
-  "trustedDependencies": [
-    "c-kzg"
-  ],
+  "trustedDependencies": ["c-kzg"],
   "simple-git-hooks": {
     "pre-commit": "bun run format && bun run lint:fix"
   },
@@ -86,6 +78,7 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "process": "^0.11.10",
+    "semver": "^7.6.0",
     "webpack": "^5.91.0"
   }
 }

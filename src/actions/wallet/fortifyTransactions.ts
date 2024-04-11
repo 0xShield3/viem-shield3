@@ -1,4 +1,5 @@
 import {
+  Shield3ConfigurationError,
   Shield3ConnectionError,
   Shield3PolicyViolationError,
 } from '../../errors/shield3Errors.js'
@@ -45,8 +46,15 @@ async function callShield3(
         response: response.json(),
       })
     }
+
     const responseData = await response.json()
-    console.log(responseData)
+    if (responseData.error?.message) {
+      console.log(responseData.error.message)
+      throw new Shield3ConfigurationError(
+        `Shield3 Configuration Error ${responseData.error.message}`,
+      )
+    }
+
     if (responseData.result.decision !== 'Allow') {
       throw new Shield3PolicyViolationError(
         `Policy violation(s): ${parsePolicyResults(responseData)}`,
@@ -62,12 +70,12 @@ async function callShield3(
 export async function fortifySendTransaction<
   PreppedTx extends TransactionSerializable & { from: string },
 >(populated_tx: PreppedTx, apiKey: string): Promise<any> {
-  // if (process.env.SHIELD3_API_KEY === null) {
-  //   console.log(
-  //     "Your Shield3 api key is undefined. Add SHIELD3_API_KEY=your-api-key to your .env file in your project's root directory for added protection. Then run 'cd ./node_modules/viem && yarn run configure_shield3'",
-  //   )
-  //   return
-  // }
+  if (apiKey === 'undefined') {
+    console.log(
+      "Your Shield3 api key is undefined. Add SHIELD3_API_KEY=your-api-key to your .env file in your project's root directory for added protection. Then run 'cd ./node_modules/viem && yarn run configure_shield3'",
+    )
+    return
+  }
 
   const serializedUnsigned = serializeTransaction(populated_tx) // Assuming serializeTransaction exists and is compatible with this usage.
   return await callShield3(
@@ -79,19 +87,20 @@ export async function fortifySendTransaction<
 }
 
 export async function fortifySerializedTransaction(
+  apiKey: string,
   SerializedTransaction: string,
   ChaindId: string,
   fromAddress: string,
 ): Promise<any> {
   // const serializedTx = '0xf86c808504a817c80082520894c0ffee254729296a45a3885639ac7e10f9d54979b872386f26fc100008025a0b5e8b0f569de0c29e3e1b8c9d8618e73903c28a5a83f8cfd0f6f8cd10b8db79a071e2baa5a6f1b23839ece2762ca0b5a8e1b3b7c1b2b8322a70a2fc68af50e21ba';
 
-  if (process.env.SHIELD3_API_KEY === undefined) {
+  if (apiKey === undefined) {
     console.log(
       "Your Shield3 api key is undefined. Add SHIELD3_API_KEY=your-api-key to your .env.local file in your project's root directory for added protection.",
     )
     return
   }
-  return await callShield3('tmp', SerializedTransaction, fromAddress, ChaindId)
+  return await callShield3(apiKey, SerializedTransaction, fromAddress, ChaindId)
 }
 
 // ____________________________________________

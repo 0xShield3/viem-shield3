@@ -6,7 +6,7 @@ import {
   type HexToBigIntErrorType,
   hexToBigInt,
 } from '../../utils/encoding/fromHex.js'
-import { type ToHexErrorType } from '../../utils/encoding/toHex.js'
+import type { ToHexErrorType } from '../../utils/encoding/toHex.js'
 
 export type SignatureToHexErrorType =
   | HexToBigIntErrorType

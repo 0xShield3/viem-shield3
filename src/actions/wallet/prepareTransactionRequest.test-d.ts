@@ -1,6 +1,6 @@
 import { expectTypeOf, test } from 'vitest'
 import {
-  anvilChain,
+  type anvilChain,
   walletClient,
   walletClientWithAccount,
   walletClientWithoutChain,

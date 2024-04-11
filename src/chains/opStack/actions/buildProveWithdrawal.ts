@@ -20,7 +20,7 @@ import type {
   DeriveChain,
   GetChainParameter,
 } from '../../../types/chain.js'
-import { type Hex } from '../../../types/misc.js'
+import type { Hex } from '../../../types/misc.js'
 import type { Prettify } from '../../../types/utils.js'
 import { fromRlp } from '../../../utils/encoding/fromRlp.js'
 import { toRlp } from '../../../utils/encoding/toRlp.js'

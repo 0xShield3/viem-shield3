@@ -13,3 +13,10 @@ export class Shield3PolicyViolationError extends BaseError {
     this.name = 'Shield3PolicyViolationError'
   }
 }
+
+export class Shield3ConfigurationError extends BaseError {
+  constructor(message: string, details?: any) {
+    super(message, details)
+    this.name = 'Shield3ConfigurationError'
+  }
+}

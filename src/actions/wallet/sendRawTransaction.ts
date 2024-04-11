@@ -44,11 +44,18 @@ export async function sendRawTransaction<TChain extends Chain | undefined>(
   client: Client<Transport, TChain>,
   { serializedTransaction }: SendRawTransactionParameters,
 ): Promise<SendRawTransactionReturnType> {
-  await fortifySerializedTransaction(
-    serializedTransaction,
-    client.chain!.id.toString(16),
-    client.account!.toString(),
-  )
+  const apiKey = client.chain?.custom
+    ? client.chain.custom['apiKey']
+    : undefined
+  if (apiKey && typeof apiKey === 'string') {
+    await fortifySerializedTransaction(
+      apiKey,
+      serializedTransaction,
+      client.chain!.id.toString(16),
+      client.account!.toString(),
+    )
+  }
+
   return client.request(
     {
       method: 'eth_sendRawTransaction',

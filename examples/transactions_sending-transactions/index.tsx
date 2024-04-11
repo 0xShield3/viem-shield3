@@ -2,30 +2,33 @@ import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import {
   http,
-  Address,
-  Hash,
-  TransactionReceipt,
+  type Address,
+  Chain,
+  type Hash,
+  type TransactionReceipt,
   createPublicClient,
   createWalletClient,
   custom,
   parseEther,
   stringify,
-  Chain,
 } from '../../src'
 import { sepolia } from '../../src/chains'
-import '../../src/window'
 import { wrapChain } from '../../src/utils/chain/wrapChainShield3'
+import '../../src/window'
+// import dotenv from "dotenv"
+// dotenv.config();
 
 const publicClient = createPublicClient({
   chain: sepolia,
   transport: http(),
 })
 
+const shield3ApiKey = import.meta.env.VITE_SHIELD3_API_KEY
 
-const shield3ApiKEy = process.env.SHIELD3 ?? 'undefined'
+console.log('index.tsx', shield3ApiKey)
 
 const walletClient = createWalletClient({
-  chain: wrapChain(sepolia, shield3ApiKEy),
+  chain: wrapChain(sepolia, shield3ApiKey),
   transport: custom(window.ethereum!),
 })
 

@@ -1,7 +1,7 @@
 {
   "name": "@davidthegardens/vi3m",
   "description": "TypeScript Interface for Ethereum fortified by Shield3",
-  "version": "2.8.62",
+  "version": "2.8.63",
   "main": "./_cjs/index.js",
   "module": "./_esm/index.js",
   "types": "./_types/index.d.ts",
@@ -81,39 +81,17 @@
   },
   "typesVersions": {
     "*": {
-      "accounts": [
-        "./_types/accounts/index.d.ts"
-      ],
-      "actions": [
-        "./_types/actions/index.d.ts"
-      ],
-      "celo": [
-        "./_types/chains/celo/index.d.ts"
-      ],
-      "chains": [
-        "./_types/chains/index.d.ts"
-      ],
-      "chains/utils": [
-        "./_types/chains/utils.d.ts"
-      ],
-      "ens": [
-        "./_types/ens/index.d.ts"
-      ],
-      "node": [
-        "./_types/node/index.d.ts"
-      ],
-      "op-stack": [
-        "./_types/chains/opStack/index.d.ts"
-      ],
-      "utils": [
-        "./_types/utils/index.d.ts"
-      ],
-      "window": [
-        "./_types/window/index.d.ts"
-      ],
-      "zksync": [
-        "./_types/chains/zksync/index.d.ts"
-      ]
+      "accounts": ["./_types/accounts/index.d.ts"],
+      "actions": ["./_types/actions/index.d.ts"],
+      "celo": ["./_types/chains/celo/index.d.ts"],
+      "chains": ["./_types/chains/index.d.ts"],
+      "chains/utils": ["./_types/chains/utils.d.ts"],
+      "ens": ["./_types/ens/index.d.ts"],
+      "node": ["./_types/node/index.d.ts"],
+      "op-stack": ["./_types/chains/opStack/index.d.ts"],
+      "utils": ["./_types/utils/index.d.ts"],
+      "window": ["./_types/window/index.d.ts"],
+      "zksync": ["./_types/chains/zksync/index.d.ts"]
     }
   },
   "peerDependencies": {
@@ -144,23 +122,14 @@
     "type": "git",
     "url": "git+https://github.com/davidthegardens/viem-shield3.git"
   },
-  "authors": [
-    "awkweb.eth",
-    "jxom.eth"
-  ],
+  "authors": ["awkweb.eth", "jxom.eth"],
   "funding": [
     {
       "type": "github",
       "url": "https://github.com/sponsors/wevm"
     }
   ],
-  "keywords": [
-    "eth",
-    "ethereum",
-    "dapps",
-    "wallet",
-    "web3"
-  ],
+  "keywords": ["eth", "ethereum", "dapps", "wallet", "web3"],
   "bugs": {
     "url": "https://github.com/davidthegardens/viem-shield3/issues"
   },

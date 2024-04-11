@@ -2,7 +2,7 @@ import { assertType, describe, expect, test, vi } from 'vitest'
 
 import { localWsUrl } from '~test/src/constants.js'
 import { localhost } from '../chains/index.js'
-import { type EIP1193RequestFn, type PublicRpcSchema } from '../index.js'
+import type { EIP1193RequestFn, PublicRpcSchema } from '../index.js'
 import { createPublicClient } from './createPublicClient.js'
 import { testActions } from './decorators/test.js'
 import { walletActions } from './decorators/wallet.js'
